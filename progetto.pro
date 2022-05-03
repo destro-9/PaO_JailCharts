@@ -5,6 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += charts
+QT       += xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,7 +27,36 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    data.cpp \
+    values.cpp \
+    table.cpp \
+    model.cpp \
+    chart.cpp \
+    barchart.cpp \
+    linechart.cpp \
+    scatterchart.cpp \
+    areachart.cpp \
+    piechart.cpp \
+    controller.cpp \
+    newwindow.cpp \
+    inputform.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    data.h \
+    values.h \
+    table.h \
+    model.h \
+    chart.h \
+    barchart.h \
+    linechart.h \
+    scatterchart.h \
+    areachart.h \
+    piechart.h \
+    controller.h \
+    newwindow.h \
+    inputform.h
+
+RESOURCES += \
+    icon.qrc
