@@ -22,12 +22,13 @@ void Values::DeleteAll(){
 }
 
 int Values::GetSize() const{
-    return val.size();
+    int aux = val.size();
+    return aux;
 }
 
 int Values::GetValMax() const{
     int max=0;
-    for (int i=0; i != GetSize(); ++i) {
+    for (int i=0; i < GetSize(); ++i) {
         if (val[i]->getMale() > max)
             max = val[i]->getMale();
         if (val[i]->getFemale() > max)

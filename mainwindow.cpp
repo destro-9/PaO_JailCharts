@@ -90,8 +90,9 @@ MainWindow::MainWindow(QWidget *parent)
     table->setFixedWidth(360);
     container->addWidget(table);
 
-    chart = new QtCharts::QChart();
-    QtCharts::QChartView* chartView = new QtCharts::QChartView(chart);
+    QtCharts::QChart* chart = new QtCharts::QChart();
+    chartView = new QtCharts::QChartView(chart);
+
     QtCharts::QLineSeries* series = new QtCharts::QLineSeries();
     series->append(0,1);
     chart->addSeries(series);
@@ -187,7 +188,15 @@ void MainWindow::Update(int i){
     ConfirmA->setEnabled(false);
 }
 
-QtCharts::QChart* MainWindow::getChart() const {return chart;}
+QtCharts::QChart* MainWindow::getChart() const {return chartView->chart();}
+
+void MainWindow::setChart() {
+    QtCharts::QChart* aux = chartView->chart();
+    QtCharts::QChart* chart = new QtCharts::QChart();
+    chart->createDefaultAxes();
+    chartView->setChart(chart);
+    delete aux;
+}
 
 void MainWindow::AddUpdate() {
     AddA->setEnabled(false);

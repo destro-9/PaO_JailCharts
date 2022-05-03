@@ -55,7 +55,7 @@ void Controller::Apply() {
     } else {
         int i = t->getVal()->GetSize()-1;
         Values* val = t->getVal();
-        int m=(*val)[i]->getMale(), f=(*val)[i]->getFemale(), y=(*val)[i]->getYear();
+        int m=(*val)[i]->getMale(), f=(*val)[i]->getFemale(), y=model->ValueToIndex((*val)[i]->getYear());
         if(m!=0 && f!=0 && y!=0){
             Data* d = new Data(m,f,y,t);
             val->Add(d);
@@ -108,10 +108,11 @@ void Controller::UpdateModelChart() const{
     }
 
 void Controller::UpdateViewChart() const{
+    view->setChart();
     QtCharts::QChart* vChart = view->getChart();
     if(view->getTable()->getVal()->IsEmpty())
         return;
-    vChart->removeAllSeries();
+    //vChart->removeAllSeries();
 
     //WARNING
     //deleteAxis();
@@ -135,7 +136,9 @@ void Controller::UpdateViewChart() const{
         else
         */
         vChart->addAxis(bar->GetAxisX(), Qt::AlignBottom);
-        vChart->axisX()->setVisible(false);
+        vChart->addAxis(bar->GetAxisY(), Qt::AlignLeft);
+        vChart->axisX()->setVisible(true);
+        vChart->axisY()->setVisible(true);
         vChart->legend()->show();
         break;
     case 2:
@@ -164,10 +167,10 @@ void Controller::UpdateViewChart() const{
     }
     qDebug()<<"UVC -> Out of switch";
     vChart->setTitle(mChart->getTitle());
-    vChart->axes(Qt::Horizontal).first()->setRange(2010,2020);
-    vChart->axes(Qt::Vertical).first()->setRange(1,view->getTable()->getVal()->GetValMax()+1);
+    //vChart->axes(Qt::Horizontal).back()->setRange(2010,2020);
+    //vChart->axes(Qt::Vertical).back()->setRange(1,view->getTable()->getVal()->GetValMax()+1);
     view->Update(i);
-    vChart->show(); //Serve?
+    vChart->show();
     inputw->close();
     neww->close();
 }
@@ -175,9 +178,10 @@ void Controller::UpdateViewChart() const{
 void Controller::CreateBarChart() const {
     QtCharts::QChart* v = view->getChart();
     v->removeAllSeries();
+
     v->axisX()->setVisible(false);
     v->axisY()->setVisible(true);
-    deleteAxis();
+    //deleteAxis();
     model->CreateTypeChart(1);
     BarChart* bar = dynamic_cast<BarChart*>(model->getChart());
     v->addSeries(bar->GetSeries());
@@ -192,7 +196,7 @@ void Controller::CreateLineChart() const {
     v->removeAllSeries();
     v->axisX()->setVisible(true);
     v->axisY()->setVisible(true);
-    deleteAxis();
+    //deleteAxis();
     model->CreateTypeChart(2);
     LineChart* line = dynamic_cast<LineChart*>(model->getChart());
     v->addSeries(line->GetSerieMale());
@@ -207,7 +211,7 @@ void Controller::CreateScatterChart() const {
     v->removeAllSeries();
     v->axisX()->setVisible(true);
     v->axisY()->setVisible(true);
-    deleteAxis();
+    //deleteAxis();
     model->CreateTypeChart(3);
     ScatterChart* scatter = dynamic_cast<ScatterChart*>(model->getChart());
     v->addSeries(scatter->GetSerieMale());
@@ -222,7 +226,7 @@ void Controller::CreateAreaChart() const {
     v->removeAllSeries();
     v->axisX()->setVisible(true);
     v->axisY()->setVisible(true);
-    deleteAxis();
+    //deleteAxis();
     model->CreateTypeChart(4);
     AreaChart* area = dynamic_cast<AreaChart*>(model->getChart());
     v->addSeries(area->GetSeries());
@@ -236,7 +240,7 @@ void Controller::CreatePieChart() const {
     v->removeAllSeries();
     v->axisX()->setVisible(false);
     v->axisY()->setVisible(false);
-    deleteAxis();
+    //deleteAxis();
     model->CreateTypeChart(5);
     PieChart* pie = dynamic_cast<PieChart*>(model->getChart());
     for(int i=0; i < view->getTable()->getVal()->GetSize(); i++)
@@ -247,21 +251,26 @@ void Controller::CreatePieChart() const {
 }
 
 void Controller::InsertToVal() {
+    qDebug()<<"InsertToVal";
     Table* tab = view->getTable();
     Values* val = tab->getVal();
     tab->setController(this);
+
     if(!val->IsEmpty())
         tab->DeleteAll();//Prima era: val->DeleteAll();
+
     if(!inputw->BlanksCheck()) //Spostare il controllo altrove
         QMessageBox::warning(0, "Error", "Do not insert null values. Try again.");
     else  if (!val->YearCheck())
         QMessageBox::warning(0, "Error", "Do not insert equal years. Try again.");
     else {
         int row = inputw->getInputRowsNum();
+        qDebug()<<"Inputw number " <<row;
         for(int i=0; i<row; i++){
             Data* aux = inputw->getData(i);
             int y=model->ValueToIndex(aux->getYear()), m=aux->getMale(), f=aux->getFemale();
             aux = new Data(m,f,y,tab);
+            qDebug()<<y<<m<<f<<i;
             val->Add(aux);
         }
         tab->Update();
@@ -274,7 +283,7 @@ void Controller::ChangedValue() {
     if(!view->ApplyIsEnabled()){
         if(view->getTable()->getVal()->YearCheck())
         {
-            deleteAxis(); // ???
+            //deleteAxis(); // ???
             UpdateViewChart();
         }
         else
