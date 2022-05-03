@@ -1,2 +1,16 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/icon">
+        <file>images/add-file.png</file>
+        <file>images/area-chart.png</file>
+        <file>images/bar-chart.png</file>
+        <file>images/cancel.png</file>
+        <file>images/confirm.png</file>
+        <file>images/line-chart.png</file>
+        <file>images/open-folder.png</file>
+        <file>images/pie-graph.png</file>
+        <file>images/plus.png</file>
+        <file>images/remove.png</file>
+        <file>images/save.png</file>
+        <file>images/scatter-graph.png</file>
+    </qresource>
+</RCC>
