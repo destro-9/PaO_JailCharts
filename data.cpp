@@ -25,7 +25,7 @@ Data::Data(int m, int f, int y,QObject *parent) : QObject(parent), male(new QSpi
 
     // DA CANCELLARE A FINE DEBUG !!!
     if(y>12)
-        qDebug()<<"y richiede valori fra 0 e 11";
+        qDebug()<<y<<"y richiede valori fra 0 e 11";
     // RICORDATIII
 
     year->setCurrentIndex(y);

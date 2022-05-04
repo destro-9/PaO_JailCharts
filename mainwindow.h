@@ -44,13 +44,14 @@ private:
     QToolBar* FileT;
     QToolBar* ChartT;
     QToolBar* ModificaT;
-    QtCharts::QChart* chart;
+    QtCharts::QChartView* chartView;
 public:
     explicit MainWindow(QWidget *parent = 0);
     void SetController(Controller*);
     void Update(int);
     Table* getTable() const;
     QtCharts::QChart* getChart() const;
+    void setChart();
     bool ApplyIsEnabled() const;
     void ApplyUpdate();
     void ClearUpdate();

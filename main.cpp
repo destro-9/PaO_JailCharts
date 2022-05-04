@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     c.SetModel(&m);
     c.SetView(&w);
+    m.setVal(w.getTable()->getVal());
     w.SetController(&c);
     w.show();
 

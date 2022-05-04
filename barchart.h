@@ -6,6 +6,8 @@
 #include <QtCharts/QBarSeries>
 #include <QtCharts/QStackedBarSeries>
 #include <QtCharts/QBarCategoryAxis>
+#include <QtCharts/QValueAxis>
+
 
 class BarChart final : public Chart {
 private:
@@ -16,9 +18,13 @@ private:
     QtCharts::QBarSeries* serieFemale;
     QStringList categories;
     QtCharts::QBarCategoryAxis* axisX;
+    QtCharts::QValueAxis* axisY;
+
 public:
     BarChart(Values*);
     QtCharts::QBarCategoryAxis* GetAxisX();
+    QtCharts::QValueAxis* GetAxisY();
+
     QtCharts::QBarSeries* GetSeries() const;
     QStringList GetCategories() const;
     //virtual void setTypeChart() override;
