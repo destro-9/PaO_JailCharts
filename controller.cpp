@@ -176,6 +176,7 @@ void Controller::UpdateViewChart() const{
 }
 
 void Controller::CreateBarChart() const {
+    qDebug()<<"CreateBarChart()";
     QtCharts::QChart* v = view->getChart();
     v->removeAllSeries();
 
