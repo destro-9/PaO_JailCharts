@@ -36,7 +36,7 @@ void Table::EnableRows() const{
 
 void Table::InsertNew(int i){
     insertRow(i);
-    Data* d = new Data(this);
+    Data* d = new Data();
     val.Add(d);
     setCellWidget(i,0,d->getYearWidget());
     setCellWidget(i,1,d->getMaleWidget());

@@ -19,6 +19,7 @@ private:
 public:
     explicit Data(QObject* =nullptr);
     explicit Data(int,int,int,QObject* =nullptr);
+    explicit Data(Data*,QObject* =nullptr);
     void setController(Controller*);
     QSpinBox* getMaleWidget() const;
     QSpinBox* getFemaleWidget() const;

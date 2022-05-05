@@ -26,7 +26,7 @@ void Controller::AddToTab() const {
     Table* t = view->getTable();
     int r = t->rowCount();
     if(r<=10){
-        t->InsertNew(r);
+        t->InsertNew(r); //Aggiunge una row di tipo Data senza parent
         t->DisableRows();
     } else {
         QMessageBox::warning(0,"Warning","There are not supposed to be more than 11 rows");
@@ -56,9 +56,16 @@ void Controller::Apply() {
         int i = t->getVal()->GetSize()-1;
         Values* val = t->getVal();
         int m=(*val)[i]->getMale(), f=(*val)[i]->getFemale(), y=model->ValueToIndex((*val)[i]->getYear());
-        if(m!=0 && f!=0 && y!=0){
-            Data* d = new Data(m,f,y,t);
+        if(m!=0 && f!=0 && y!=0){ //Ma se usassi blankscheck() ???
+            Data* d = new Data((*val)[i],t);
+            //Bisogna gestire la creazione e deallocazione delle nuove row
+            t->DeleteRow(i);
+            t->insertRow(i);
             val->Add(d);
+            t->setCellWidget(i,0,d->getYearWidget());
+            t->setCellWidget(i,1,d->getMaleWidget());
+            t->setCellWidget(i,2,d->getFemaleWidget());
+            t->setCurrentCell(i,0);
             t->EnableRows();
             view->ApplyUpdate();
             UpdateViewChart();
@@ -88,12 +95,13 @@ void Controller::RemoveFromTab() const {
 }
 
 void Controller::Clear() const{
-    view->getChart()->removeAllSeries();
+    //view->getChart()->removeAllSeries();
+    view->setChart();
+    QtCharts::QChart* chart = view->getChart();
     view->getTable()->DeleteAll();
     //view->getTable()->getVal()->DeleteAll(); Non dovrebbe servire
-    view->getChart()->setTitle("Void Chart");
-    view->getChart()->legend()->hide();
-    deleteAxis();
+    chart->setTitle("Void Chart");
+    chart->legend()->hide();
     view->ClearUpdate();
 }
 
