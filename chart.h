@@ -16,6 +16,7 @@ public:
     void setDescription(QString ="");
     //virtual void setTypeChart() =0;
     virtual int getTypeChart() const =0;
+    Values* GetSortedDeepCopyOfVal(Values*) const;
 };
 // Trascrizione terminata
 #endif // CHART_H

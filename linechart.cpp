@@ -1,10 +1,14 @@
 #include "linechart.h"
 
 LineChart::LineChart(Values* val) : serieMale(new QtCharts::QLineSeries()),
-                                    serieFemale(new QtCharts::QLineSeries()) {
+                                    serieFemale(new QtCharts::QLineSeries()),
+                                    axisX(new QtCharts::QCategoryAxis()),
+                                    axisY(new QtCharts::QValueAxis())
+{
     for(int i=0; i < val->GetSize(); i++){
         serieMale->append((*val)[i]->getYear(),(*val)[i]->getMale());
         serieFemale->append((*val)[i]->getYear(),(*val)[i]->getFemale());
+        //axisX->append();
     }
     serieMale->setName("Male");
     serieFemale->setName("Female");

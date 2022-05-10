@@ -19,11 +19,15 @@ private:
     void deleteAxis() const;
     void readXML();
     void writeXML();
+    bool InputMode_;
+    void SetInputModeOn();
 public:
     explicit Controller();
     void SetModel(Model*);
     void SetView(MainWindow*);
 public slots:
+    void SetInputModeOff();
+    void CloseInputForm() const;
     void CallNewWindow();
     void CallInputForm();
     void UpdateModelChart() const;

@@ -4,10 +4,12 @@
 #include <QMessageBox> // Forse inutile includerlo
 #include <QtCharts/QBarCategoryAxis>
 
-Controller::Controller() : QObject() {}
+Controller::Controller() : QObject() {InputMode_=false;}
 
 void Controller::SetModel(Model* m) {model = m;}
 void Controller::SetView(MainWindow* v) {view = v;}
+void Controller::SetInputModeOff() {InputMode_=false;}
+void Controller::SetInputModeOn() {InputMode_=true;}
 
 void Controller::CallNewWindow(){
     neww = new NewWindow(view);
@@ -18,6 +20,7 @@ void Controller::CallNewWindow(){
 void Controller::CallInputForm(){
     inputw = new InputForm(neww->RowsValue(),neww);
     inputw->SetController(this);
+    SetInputModeOn();
     inputw->show();
 }
 
@@ -56,8 +59,8 @@ void Controller::Apply() {
         int i = t->getVal()->GetSize()-1;
         Values* val = t->getVal();
         int m=(*val)[i]->getMale(), f=(*val)[i]->getFemale(), y=model->ValueToIndex((*val)[i]->getYear());
-        if(m!=0 && f!=0 && y!=0){ //Ma se usassi blankscheck() ???
-            Data* d = new Data((*val)[i],t);
+        if(m!=0 && f!=0/* && y!=0*/){ //Ma se usassi blankscheck() ??? Almeno e` corretto???
+            Data* d = (*val)[i]->ReassignParent(t);
             //Bisogna gestire la creazione e deallocazione delle nuove row
             t->DeleteRow(i);
             t->insertRow(i);
@@ -90,7 +93,7 @@ void Controller::RemoveFromTab() const {
         t->DeleteRow(row);
         t->EnableRows();
     }
-    deleteAxis(); //Piu` probabile vada solo aggiornato
+    //deleteAxis(); //Piu` probabile vada solo aggiornato
     UpdateViewChart();
 }
 
@@ -107,13 +110,17 @@ void Controller::Clear() const{
 
 void Controller::UpdateModelChart() const{
     int i=1;
-    if(inputw->isActiveWindow())
+    if(InputMode_){
         i=neww->getComboIndex()+1;
-
-    model->CreateTypeChart(i);
-    model->getChart()->setTitle(neww->getTitle());
-    model->getChart()->setDescription(neww->getDescription());
+        model->CreateTypeChart(i);
+        model->getChart()->setTitle(neww->getTitle());
+        model->getChart()->setDescription(neww->getDescription());
+        return;
     }
+    else if(model->getChart() != nullptr)
+        i=model->getChart()->getTypeChart();
+    model->CreateTypeChart(i);
+}
 
 void Controller::UpdateViewChart() const{
     view->setChart();
@@ -166,8 +173,8 @@ void Controller::UpdateViewChart() const{
     case 5:
         for(int i=0; i < view->getTable()->getVal()->GetSize(); i++)
             vChart->addSeries(pie->GetSeries(i));
-        vChart->axisX()->setVisible(false);
-        vChart->axisY()->setVisible(false);
+        //vChart->axisX()->setVisible(false);
+        //vChart->axisY()->setVisible(false);
         break;
     default:
         qDebug()<<"UVC -> FAIL on switch";
@@ -179,30 +186,39 @@ void Controller::UpdateViewChart() const{
     //vChart->axes(Qt::Vertical).back()->setRange(1,view->getTable()->getVal()->GetValMax()+1);
     view->Update(i);
     vChart->show();
+    //Da sostituire
+    //inputw->close();
+    //neww->close();
+}
+
+void Controller::CloseInputForm() const{
     inputw->close();
     neww->close();
 }
 
 void Controller::CreateBarChart() const {
     qDebug()<<"CreateBarChart()";
+    view->setChart();
     QtCharts::QChart* v = view->getChart();
-    v->removeAllSeries();
+    //v->removeAllSeries();
 
-    v->axisX()->setVisible(false);
-    v->axisY()->setVisible(true);
+
     //deleteAxis();
     model->CreateTypeChart(1);
     BarChart* bar = dynamic_cast<BarChart*>(model->getChart());
     v->addSeries(bar->GetSeries());
     v->legend()->show();
     v->addAxis(bar->GetAxisX(), Qt::AlignBottom);
+    v->addAxis(bar->GetAxisY(), Qt::AlignLeft);
+    v->axisX()->setVisible(false);
+    v->axisY()->setVisible(true);
     view->Update(1);
     //v->show; //Sospetto non serva;
 }
 
 void Controller::CreateLineChart() const {
+    view->setChart();
     QtCharts::QChart* v = view->getChart();
-    v->removeAllSeries();
     v->axisX()->setVisible(true);
     v->axisY()->setVisible(true);
     //deleteAxis();
@@ -325,7 +341,8 @@ void Controller::readXML(){
     Table* table = view->getTable();
     Values* val = table->getVal();
     if(!val->IsEmpty())
-        val->DeleteAll();
+        table->DeleteAll();
+        //val->DeleteAll();
     QDomElement root = doc.firstChildElement(); //Ottengo la root
     QDomElement points = root.firstChildElement(); //Ottengo il tag Points
     QDomNodeList pointsList = points.elementsByTagName("Point"); //Lista dei dati
@@ -336,7 +353,7 @@ void Controller::readXML(){
             Data* d = new Data(
                 dato.attribute("male").toInt(),
                 dato.attribute("female").toInt(),
-                dato.attribute("year").toInt(), table
+                model->ValueToIndex(dato.attribute("year").toInt()), table
             );
             val->Add(d);
         }

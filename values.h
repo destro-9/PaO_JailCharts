@@ -14,6 +14,7 @@ public:
     void DeleteAll();
     int GetSize() const;
     int GetValMax() const;
+    int GetIndexForDataMinimumYear() const;
     bool IsEmpty() const;
     Data* operator[](int) const;
     void Change(int,Data*);

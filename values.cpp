@@ -1,5 +1,5 @@
 #include "values.h"
-
+#include <QDebug>
 Values::Values() {}
 
 void Values::Add(Data* d){
@@ -35,6 +35,19 @@ int Values::GetValMax() const{
             max = val[i]->getFemale();
     }
     return max;
+}
+
+
+
+int Values::GetIndexForDataMinimumYear() const{
+    int index=0, min=2021; //Oltre i valori concessi
+    for (int i=0; i < GetSize(); i++) {
+        if(val[i]->getYear() < min){
+            min=val[i]->getYear();
+            index=i;
+        }
+    }
+    return index;
 }
 
 bool Values::IsEmpty() const{

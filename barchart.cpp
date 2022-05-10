@@ -6,17 +6,16 @@ BarChart::BarChart(Values* val) : series(new QtCharts::QBarSeries()),
                                 axisX(new QtCharts::QBarCategoryAxis()),
                                 axisY(new QtCharts::QValueAxis()){
     qDebug()<<"Barchart constructor";
-    for(int i=0; i < val->GetSize(); i++){
-        qDebug()<<i;
-        *setMale << (*val)[i]->getMale();
-        *setFemale << (*val)[i]->getFemale();
-        categories << QString::number((*val)[i]->getYear());
+    Values* sorted = GetSortedDeepCopyOfVal(val);
+    for(int i=0; i < sorted->GetSize(); i++){
+        *setMale << (*sorted)[i]->getMale();
+        *setFemale << (*sorted)[i]->getFemale();
+        categories << QString::number((*sorted)[i]->getYear());
     }
     setFemale->setColor(QColor::fromRgb(255,192,203));
     series->append(setMale);
     series->append(setFemale);
     axisX->append(categories);
-    qDebug()<<val->GetValMax();
     axisY->setRange(1, val->GetValMax()+1);
     axisY->setTickCount(val->GetValMax()/10);
 }

@@ -51,6 +51,8 @@ void InputForm::SetController(Controller* c){
     controller = c;
     connect (confirm, SIGNAL(clicked()), controller, SLOT(InsertToVal()));
     connect (confirm, SIGNAL(clicked()), controller, SLOT(UpdateViewChart()));
+    connect (confirm, SIGNAL(clicked()), controller, SLOT(CloseInputForm()));
+    connect (confirm, SIGNAL(clicked()), controller, SLOT(SetInputModeOff()));
 }
 
 bool InputForm::BlanksCheck() const{
