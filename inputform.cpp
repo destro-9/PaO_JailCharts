@@ -49,10 +49,13 @@ InputForm::InputForm(int r, QDialog* parent) : QDialog(parent), rows(r) {
 
 void InputForm::SetController(Controller* c){
     controller = c;
+    /*
     connect (confirm, SIGNAL(clicked()), controller, SLOT(InsertToVal()));
     connect (confirm, SIGNAL(clicked()), controller, SLOT(UpdateViewChart()));
     connect (confirm, SIGNAL(clicked()), controller, SLOT(CloseInputForm()));
     connect (confirm, SIGNAL(clicked()), controller, SLOT(SetInputModeOff()));
+    */
+    connect(confirm,SIGNAL(clicked()),controller,SLOT(InputSequence()));
 }
 
 bool InputForm::BlanksCheck() const{

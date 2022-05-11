@@ -16,7 +16,7 @@ BarChart::BarChart(Values* val) : series(new QtCharts::QBarSeries()),
     series->append(setMale);
     series->append(setFemale);
     axisX->append(categories);
-    axisY->setRange(1, val->GetValMax()+1);
+    axisY->setRange(0, val->GetValMax());
     axisY->setTickCount(val->GetValMax()/10);
 }
 

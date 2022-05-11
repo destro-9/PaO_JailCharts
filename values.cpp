@@ -64,21 +64,6 @@ void Values::Change(int i, Data* d){
     val[i]=d;
 }
 
-void Values::Sort(){
-    if(!IsEmpty()){
-        Data* aux;
-        for(int i=1; i < val.size(); i++){
-            aux = val[i];
-            int j = i-1;
-            while(j>0 && *(val[i]) > *aux){
-                Change(j+1,val[j]);
-                j--;
-            }
-            Change(j+1,aux);
-        }
-    }
-}
-
 bool Values::YearCheck() const{
     int n = val.size();
     for(int i=0; i < n-1; i++)

@@ -18,8 +18,6 @@ public:
     bool IsEmpty() const;
     Data* operator[](int) const;
     void Change(int,Data*);
-    void Sort();
-    //Da definire
     bool YearCheck() const;
 
     ~Values();

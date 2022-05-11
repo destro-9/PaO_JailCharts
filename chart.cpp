@@ -4,7 +4,7 @@ QString Chart::getTitle() const {return title;}
 QString Chart::getDescription() const {return description;}
 void Chart::setTitle(QString s) {title=s;}
 void Chart::setDescription(QString s) {description=s;}
-#include <QDebug>
+
 Values* Chart::GetSortedDeepCopyOfVal(Values* original) const{
     Values aux;
     for(int i=0; i < original->GetSize(); i++){ //Fa una copia profonda
@@ -18,8 +18,6 @@ Values* Chart::GetSortedDeepCopyOfVal(Values* original) const{
         Data* ennesimaCopiaInutile = new Data(*(aux[pos]));
         v->Add(ennesimaCopiaInutile);
         aux.Delete(pos);
-        qDebug()<<aux.GetSize();
     }
-    qDebug()<<"Aux: "<<aux.GetSize();
     return v;
 }
