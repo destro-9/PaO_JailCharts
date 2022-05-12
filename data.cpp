@@ -23,7 +23,7 @@ Data::Data(int m, int f, int y,QObject *parent) : QObject(parent), male(new QSpi
     for(int i=2010; i<=2020; i++)
         year->insertItem(i, QString::number(i));
 
-    if(y>=2010 && y<=2020)
+    if(y>=2010 && y<=2020) //Per comodita` accetta sia valori fra 2010 e 2020, oppure direttamente l'indice dell'anno
         year->setCurrentIndex(ValueToIndex(y));
     else
         year->setCurrentIndex(y);

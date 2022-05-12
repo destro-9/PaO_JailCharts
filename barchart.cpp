@@ -12,6 +12,7 @@ BarChart::BarChart(Values* val) : series(new QtCharts::QBarSeries()),
         *setFemale << (*sorted)[i]->getFemale();
         categories << QString::number((*sorted)[i]->getYear());
     }
+    delete sorted;
     setFemale->setColor(QColor::fromRgb(255,192,203));
     series->append(setMale);
     series->append(setFemale);

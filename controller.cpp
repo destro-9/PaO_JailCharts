@@ -120,7 +120,7 @@ void Controller::UpdateViewChart() const{
     if(view->getTable()->IsEmpty())
         return;
 
-    UpdateModelChart(); //Aggiorno i valori di model
+    UpdateModelChart(); //Aggiorno i valori di model a partire dai valori presenti in tabella (val)
 
     Chart* mChart = model->getChart();
     int i=mChart->getTypeChart();
@@ -142,6 +142,10 @@ void Controller::UpdateViewChart() const{
     case 2:
         vChart->addSeries(line->GetSerieMale());
         vChart->addSeries(line->GetSerieFemale());
+        vChart->addAxis(line->GetAxisX(), Qt::AlignBottom);
+        vChart->addAxis(line->GetAxisY(), Qt::AlignLeft);
+        vChart->axisX()->setVisible(true);
+        vChart->axisY()->setVisible(true);
         vChart->legend()->show();
         break;
     case 3:
@@ -180,10 +184,6 @@ void Controller::CreateBarChart() const {
     qDebug()<<"CreateBarChart()";
     view->setChart();
     QtCharts::QChart* v = view->getChart();
-    //v->removeAllSeries();
-
-
-    //deleteAxis();
     model->CreateTypeChart(1);
     BarChart* bar = dynamic_cast<BarChart*>(model->getChart());
     v->addSeries(bar->GetSeries());
@@ -193,22 +193,21 @@ void Controller::CreateBarChart() const {
     v->axisX()->setVisible(false);
     v->axisY()->setVisible(true);
     view->Update(1);
-    //v->show; //Sospetto non serva;
 }
 
 void Controller::CreateLineChart() const {
     view->setChart();
     QtCharts::QChart* v = view->getChart();
-    v->axisX()->setVisible(true);
-    v->axisY()->setVisible(true);
-    //deleteAxis();
     model->CreateTypeChart(2);
     LineChart* line = dynamic_cast<LineChart*>(model->getChart());
     v->addSeries(line->GetSerieMale());
     v->addSeries(line->GetSerieFemale());
+    v->addAxis(line->GetAxisX(), Qt::AlignBottom);
+    v->addAxis(line->GetAxisY(), Qt::AlignLeft);
     v->legend()->show();
+    v->axisX()->setVisible(true);
+    v->axisY()->setVisible(true);
     view->Update(2);
-    v->show(); // Credo non serva
 }
 
 void Controller::CreateScatterChart() const {
@@ -260,18 +259,14 @@ void Controller::InsertToVal() {
     tab->setController(this);
     if(!tab->IsEmpty())
         tab->DeleteAll();
-    if (!inputw->YearCheck()){
+    if (!inputw->YearCheck())
         QMessageBox::warning(0, "Error", "Do not insert equal years. Try again.");
-    }
     else {
         int row = inputw->getInputRowsNum();
         for(int i=0; i<row; i++){
             Data* aux = inputw->getData(i)->ReassignParent(tab);
             tab->InsertDataOnNewRow(aux,i);
         }
-        //Se il procedimento va a buon fine, segnalo la modalita` di input
-        //InputMode_=true;
-        qDebug()<<"I mode on";
     }
 }
 

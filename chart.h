@@ -14,9 +14,9 @@ public:
     QString getDescription() const;
     void setTitle(QString ="Unknown");
     void setDescription(QString ="");
-    //virtual void setTypeChart() =0;
     virtual int getTypeChart() const =0;
     Values* GetSortedDeepCopyOfVal(Values*) const;
+    //Serve un distruttore virtuale :(
+
 };
-// Trascrizione terminata
 #endif // CHART_H

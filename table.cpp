@@ -32,7 +32,7 @@ bool Table::YearCheck() const{
     return val.YearCheck();
 }
 
-void Table::DisableRows() const{
+void Table::DisableRows() const{ // Disattiva tutte le row tranne l'ultima che subira` modifiche in attesa di Controller::Apply() per essere "ufficializzata"
     for(int i=0; i < val.GetSize()-1; i++)
         val[i]->Disable();
 }

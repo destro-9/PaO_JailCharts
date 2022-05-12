@@ -51,6 +51,8 @@ int Model::ValueToIndex(int i) const {
 Chart* Model::getChart() {return chart;}
 
 void Model::CreateTypeChart(int i){
+    //Implementare deallocazione? Tanto arrivati a sto punto il vChart e` gia` deallocato
+    //Servono distruttori virtuali
     switch(i){
     case 1:
         chart = new BarChart(val);
