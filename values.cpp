@@ -50,6 +50,17 @@ int Values::GetIndexForDataMinimumYear() const{
     return index;
 }
 
+int Values::GetIndexForDataMaximumYear() const{
+    int index=0, max=2019;
+    for(int i=0; i < GetSize(); i++) {
+        if(val[i]->getYear() > max){
+            max=val[i]->getYear();
+            index=i;
+        }
+    }
+    return index;
+}
+
 bool Values::IsEmpty() const{
     return val.size() == 0;
 }

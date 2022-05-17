@@ -142,10 +142,13 @@ void Controller::UpdateViewChart() const{
     case 2:
         vChart->addSeries(line->GetSerieMale());
         vChart->addSeries(line->GetSerieFemale());
+
+        vChart->createDefaultAxes();
         vChart->addAxis(line->GetAxisX(), Qt::AlignBottom);
-        vChart->addAxis(line->GetAxisY(), Qt::AlignLeft);
+        //vChart->addAxis(line->GetAxisY(), Qt::AlignLeft);
         vChart->axisX()->setVisible(true);
         vChart->axisY()->setVisible(true);
+        vChart->axisX()->setLineVisible();
         vChart->legend()->show();
         break;
     case 3:
@@ -160,8 +163,6 @@ void Controller::UpdateViewChart() const{
     case 5:
         for(int i=0; i < view->getTable()->getVal()->GetSize(); i++)
             vChart->addSeries(pie->GetSeries(i));
-        //vChart->axisX()->setVisible(false);
-        //vChart->axisY()->setVisible(false);
         break;
     default:
         qDebug()<<"UVC -> FAIL on switch";
@@ -169,8 +170,6 @@ void Controller::UpdateViewChart() const{
     }
     qDebug()<<"UVC -> Out of switch";
     vChart->setTitle(mChart->getTitle());
-    //vChart->axes(Qt::Horizontal).back()->setRange(2010,2020);
-    //vChart->axes(Qt::Vertical).back()->setRange(1,view->getTable()->getVal()->GetValMax()+1);
     view->Update(i);
     vChart->show();
 }
