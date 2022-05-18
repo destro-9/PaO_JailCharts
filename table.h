@@ -18,9 +18,12 @@ public:
     Values* getVal();
     void setController(Controller*);
     void Update();
+    bool IsEmpty() const;
+    bool YearCheck() const;
     void DisableRows() const;
     void EnableRows() const;
     void InsertNew(int);
+    void InsertDataOnNewRow(Data*,int);
     void DeleteRow(int);
     void DeleteAll();
     ~Table();

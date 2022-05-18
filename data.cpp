@@ -23,12 +23,10 @@ Data::Data(int m, int f, int y,QObject *parent) : QObject(parent), male(new QSpi
     for(int i=2010; i<=2020; i++)
         year->insertItem(i, QString::number(i));
 
-    // DA CANCELLARE A FINE DEBUG !!!
-    if(y>12)
-        qDebug()<<y<<"y richiede valori fra 0 e 11";
-    // RICORDATIII
-
-    year->setCurrentIndex(y);
+    if(y>=2010 && y<=2020) //Per comodita` accetta sia valori fra 2010 e 2020, oppure direttamente l'indice dell'anno
+        year->setCurrentIndex(ValueToIndex(y));
+    else
+        year->setCurrentIndex(y);
     male->setRange(0,200000);
     male->setValue(m);
     male->setAccelerated(true);
@@ -40,65 +38,65 @@ Data::Data(int m, int f, int y,QObject *parent) : QObject(parent), male(new QSpi
         setController(t->getTableController());
 }
 
-Data::Data(Data* d, QObject* parent) : QObject(parent), male(new QSpinBox()), female(new QSpinBox()), year(new QComboBox())
+Data::Data(const Data& d) : male(new QSpinBox()), female(new QSpinBox()), year(new QComboBox())
 {
     for(int i=2010; i<=2020; i++)
         year->insertItem(i, QString::number(i));
-
-    int y=0;
-    switch (d->getYear()) {
-        case 2010:
-            y = 0;
-            break;
-        case 2011:
-            y = 1;
-            break;
-        case 2012:
-            y = 2;
-            break;
-        case 2013:
-            y = 3;
-            break;
-        case 2014:
-            y = 4;
-            break;
-        case 2015:
-            y = 5;
-            break;
-        case 2016:
-            y = 6;
-            break;
-        case 2017:
-            y = 7;
-            break;
-        case 2018:
-            y = 8;
-            break;
-        case 2019:
-            y = 9;
-            break;
-        case 2020:
-            y = 10;
-            break;
-        default:
-            y = 0;
-    }
-
-    // DA CANCELLARE A FINE DEBUG !!!
-    if(y>12)
-        qDebug()<<y<<"y richiede valori fra 0 e 11";
-    // RICORDATIII
-
-    year->setCurrentIndex(y);
+    year->setCurrentIndex(ValueToIndex(d.getYear()));
     male->setRange(0,200000);
-    male->setValue(d->getMale());
+    male->setValue(d.getMale());
     male->setAccelerated(true);
     female->setRange(0,200000);
-    female->setValue(d->getFemale());
+    female->setValue(d.getFemale());
     female->setAccelerated(true);
-    Table* t = dynamic_cast<Table*>(parent);
-    if(t)
-        setController(t->getTableController());
+}
+
+Data* Data::ReassignParent(QObject* parent){
+    Data* aux = new Data(parent);
+    aux->setMale(getMale());
+    aux->setFemale(getFemale());
+    aux->setYearIndex(ValueToIndex(getYear()));
+    return aux;
+}
+
+int Data::ValueToIndex(int y) const{
+    switch (y) {
+        case 2010:
+            return 0;
+            break;
+        case 2011:
+            return 1;
+            break;
+        case 2012:
+            return 2;
+            break;
+        case 2013:
+            return 3;
+            break;
+        case 2014:
+            return 4;
+            break;
+        case 2015:
+            return 5;
+            break;
+        case 2016:
+            return 6;
+            break;
+        case 2017:
+            return 7;
+            break;
+        case 2018:
+            return 8;
+            break;
+        case 2019:
+            return 9;
+            break;
+        case 2020:
+            return 10;
+            break;
+        default:
+            return 0;
+    }
 }
 
 void Data::setController(Controller* c){

@@ -24,7 +24,15 @@ void Table::Update(){
 
 void Table::setController(Controller* c) {controller=c;}
 
-void Table::DisableRows() const{
+bool Table::IsEmpty() const{
+    return val.IsEmpty();
+}
+
+bool Table::YearCheck() const{
+    return val.YearCheck();
+}
+
+void Table::DisableRows() const{ // Disattiva tutte le row tranne l'ultima che subira` modifiche in attesa di Controller::Apply() per essere "ufficializzata"
     for(int i=0; i < val.GetSize()-1; i++)
         val[i]->Disable();
 }
@@ -37,6 +45,15 @@ void Table::EnableRows() const{
 void Table::InsertNew(int i){
     insertRow(i);
     Data* d = new Data();
+    val.Add(d);
+    setCellWidget(i,0,d->getYearWidget());
+    setCellWidget(i,1,d->getMaleWidget());
+    setCellWidget(i,2,d->getFemaleWidget());
+    setCurrentCell(i,0);
+}
+
+void Table::InsertDataOnNewRow(Data* d, int i){
+    insertRow(i);
     val.Add(d);
     setCellWidget(i,0,d->getYearWidget());
     setCellWidget(i,1,d->getMaleWidget());

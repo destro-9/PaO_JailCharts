@@ -14,11 +14,11 @@ public:
     void DeleteAll();
     int GetSize() const;
     int GetValMax() const;
+    int GetIndexForDataMinimumYear() const;
+    int GetIndexForDataMaximumYear() const;
     bool IsEmpty() const;
     Data* operator[](int) const;
     void Change(int,Data*);
-    void Sort();
-    //Da definire
     bool YearCheck() const;
 
     ~Values();

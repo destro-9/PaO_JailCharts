@@ -19,14 +19,18 @@ private:
     void deleteAxis() const;
     void readXML();
     void writeXML();
+    bool InputMode_;
+    void InsertToVal();
+    void CloseInputForm() const;
 public:
     explicit Controller();
     void SetModel(Model*);
     void SetView(MainWindow*);
 public slots:
+    void InputSequence();
     void CallNewWindow();
     void CallInputForm();
-    void UpdateModelChart() const;
+    void UpdateModelChart() const; //Private?
     void UpdateViewChart() const;
     void open();
     void save();
@@ -39,14 +43,7 @@ public slots:
     void CreateScatterChart() const;
     void CreateAreaChart() const;
     void CreatePieChart() const;
-    void InsertToVal(); // ???
-    //Va implementato in modo che valga per tutte le spinbox e combobox
     void ChangedValue();
-    /*
-    void ChangedMaleValue();
-    void ChangedFemaleValue();
-    void ChangedYearValue();
-    */
 };
 
 #endif // CONTROLLER_H
