@@ -161,11 +161,16 @@ void Controller::UpdateViewChart() const{
         break;
     case 4:
         vChart->addSeries(area->GetSeries());
+        vChart->createDefaultAxes();
+        vChart->axisX()->setVisible(true);
+        vChart->axisY()->setVisible(true);
+        vChart->axisX()->setLineVisible();
         vChart->legend()->show();
         break;
     case 5:
         for(int i=0; i < view->getTable()->getVal()->GetSize(); i++)
             vChart->addSeries(pie->GetSeries(i));
+        vChart->legend()->hide();
         break;
     default:
         qDebug()<<"UVC -> FAIL on switch";
@@ -196,7 +201,7 @@ void Controller::CreateBarChart() const {
     v->legend()->show();
     v->addAxis(bar->GetAxisX(), Qt::AlignBottom);
     v->addAxis(bar->GetAxisY(), Qt::AlignLeft);
-    v->axisX()->setVisible(false);
+    v->axisX()->setVisible(true);
     v->axisY()->setVisible(true);
     view->Update(1);
 }
@@ -232,35 +237,38 @@ void Controller::CreateScatterChart() const {
     v->addSeries(scatter->GetSerieFemale());
     v->createDefaultAxes();
     v->zoomOut();
-    v->legend()->show();
     v->axisX()->setVisible(true);
     v->axisY()->setVisible(true);
     v->axisX()->setLineVisible(true);
+    v->legend()->show();
     view->Update(3);
 }
 
 void Controller::CreateAreaChart() const {
+    view->setChart();
     QtCharts::QChart* v = view->getChart();
-    v->removeAllSeries();
+    QString tit=model->getChart()->getTitle(), desc=model->getChart()->getDescription();
+    model->CreateTypeChart(4);
+    model->getChart()->setTitle(tit); model->getChart()->setDescription(desc);
+    AreaChart* area = dynamic_cast<AreaChart*>(model->getChart());
+    v->setTitle(tit);
+    v->addSeries(area->GetSeries());
+    v->createDefaultAxes();
     v->axisX()->setVisible(true);
     v->axisY()->setVisible(true);
-    //deleteAxis();
-    model->CreateTypeChart(4);
-    AreaChart* area = dynamic_cast<AreaChart*>(model->getChart());
-    v->addSeries(area->GetSeries());
-    view->Update(4);
+    v->axisX()->setLineVisible(true);
     v->legend()->show();
-    //v->show(); // Prima non c'era... Serve?
+    view->Update(4);
 }
 
 void Controller::CreatePieChart() const {
+    view->setChart();
     QtCharts::QChart* v = view->getChart();
-    v->removeAllSeries();
-    v->axisX()->setVisible(false);
-    v->axisY()->setVisible(false);
-    //deleteAxis();
+    QString tit=model->getChart()->getTitle(), desc=model->getChart()->getDescription();
     model->CreateTypeChart(5);
+    model->getChart()->setTitle(tit); model->getChart()->setDescription(desc);
     PieChart* pie = dynamic_cast<PieChart*>(model->getChart());
+    v->setTitle(tit);
     for(int i=0; i < view->getTable()->getVal()->GetSize(); i++)
         v->addSeries(pie->GetSeries(i));
     view->Update(5);
