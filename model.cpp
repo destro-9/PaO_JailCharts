@@ -51,6 +51,48 @@ int Model::ValueToIndex(int i) const {
 Chart* Model::getChart() {return chart;}
 
 void Model::CreateTypeChart(int i){
+<<<<<<< HEAD
+
+    //QString t = chart->getTitle();
+    //QString d = chart->getDescription();
+
+    /*
+    if(chart && i>0 && i<=5)
+        delete chart;   //PROBABILE ERRORE!
+    */
+    switch(i){
+    case 1:
+        chart = new BarChart(val);
+        //chart->setTitle(t);
+        //chart->setDescription(d);
+        //dynamic_cast<BarChart*>(chart)->setTitle(t);
+        //I dynamic non son necessari con molta probabilita`
+        //Tenuti per "compatibilita`"
+        break;
+    case 2:
+        chart = new LineChart(val);
+        //chart->setTitle(t);
+        //chart->setDescription(d);
+        //dynamic_cast<LineChart*>(chart)->setTitle(t);
+        break;
+    case 3:
+        chart = new ScatterChart(val);
+        //chart->setTitle(t);
+        //chart->setDescription(d);
+        //dynamic_cast<ScatterChart*>(chart)->setTitle(t);
+        break;
+    case 4:
+        chart = new AreaChart(val);
+        //chart->setTitle(t);
+        //chart->setDescription(d);
+        //dynamic_cast<AreaChart*>(chart)->setTitle(t);
+        break;
+    case 5:
+        chart = new PieChart(val);
+        //chart->setTitle(t);
+        //chart->setDescription(d);
+        //dynamic_cast<PieChart*>(chart)->setTitle(t);
+=======
     //Implementare deallocazione? Tanto arrivati a sto punto il vChart e` gia` deallocato
     //Servono distruttori virtuali
     switch(i){
@@ -68,6 +110,7 @@ void Model::CreateTypeChart(int i){
         break;
     case 5:
         chart = new PieChart(val);
+>>>>>>> release/alpha0
         break;
     default:
         return;

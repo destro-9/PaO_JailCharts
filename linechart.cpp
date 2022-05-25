@@ -1,6 +1,18 @@
 #include "linechart.h"
 
 LineChart::LineChart(Values* val) : serieMale(new QtCharts::QLineSeries()),
+<<<<<<< HEAD
+                                    serieFemale(new QtCharts::QLineSeries()) {
+    for(int i=0; i < val->GetSize(); i++){
+        serieMale->append((*val)[i]->getYear(),(*val)[i]->getMale());
+        serieFemale->append((*val)[i]->getYear(),(*val)[i]->getFemale());
+    }
+    serieMale->setName("Male");
+    serieFemale->setName("Female");
+    serieFemale->setColor(QColor::fromRgb(255,20,147));
+}
+
+=======
                                     serieFemale(new QtCharts::QLineSeries()),
                                     axisX(new QtCharts::QCategoryAxis()),
                                     axisY(new QtCharts::QValueAxis())
@@ -23,6 +35,7 @@ LineChart::LineChart(Values* val) : serieMale(new QtCharts::QLineSeries()),
 QtCharts::QCategoryAxis* LineChart::GetAxisX() const{return axisX;}
 QtCharts::QValueAxis* LineChart::GetAxisY() const{return axisY;}
 
+>>>>>>> release/alpha0
 QtCharts::QLineSeries* LineChart::GetSerieMale() const {
     return serieMale;
 }

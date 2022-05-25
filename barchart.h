@@ -27,7 +27,6 @@ public:
 
     QtCharts::QBarSeries* GetSeries() const;
     QStringList GetCategories() const;
-    //virtual void setTypeChart() override;
     virtual int getTypeChart() const override;
     ~BarChart();
 };

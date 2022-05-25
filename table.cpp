@@ -24,6 +24,28 @@ void Table::Update(){
 
 void Table::setController(Controller* c) {controller=c;}
 
+<<<<<<< HEAD
+void Table::DisableRows() const{
+    for(int i=0; i < val.GetSize()-1; i++)
+        val[i]->Disable();
+}
+
+void Table::EnableRows() const{
+    for(int i=0; i < val.GetSize(); i++)
+        val[i]->Enable();
+}
+
+void Table::InsertNew(int i){
+    insertRow(i);
+    Data* d = new Data(this);
+    val.Add(d);
+    setCellWidget(i,0,d->getYearWidget());
+    setCellWidget(i,1,d->getMaleWidget());
+    setCellWidget(i,2,d->getFemaleWidget());
+    setCurrentCell(i,0);
+}
+
+=======
 bool Table::IsEmpty() const{
     return val.IsEmpty();
 }
@@ -61,6 +83,7 @@ void Table::InsertDataOnNewRow(Data* d, int i){
     setCurrentCell(i,0);
 }
 
+>>>>>>> release/alpha0
 void Table::DeleteRow(int i){
     val.Delete(i);
     removeRow(i);
