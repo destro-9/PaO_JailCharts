@@ -90,14 +90,9 @@ MainWindow::MainWindow(QWidget *parent)
     table->setFixedWidth(360);
     container->addWidget(table);
 
-<<<<<<< HEAD
-    chart = new QtCharts::QChart();
-    QtCharts::QChartView* chartView = new QtCharts::QChartView(chart);
-=======
     QtCharts::QChart* chart = new QtCharts::QChart();
     chartView = new QtCharts::QChartView(chart);
 
->>>>>>> release/alpha0
     QtCharts::QLineSeries* series = new QtCharts::QLineSeries();
     series->append(0,1);
     chart->addSeries(series);
@@ -122,103 +117,16 @@ void MainWindow::SetController(Controller* c){
     connect(FileM->actions()[1], SIGNAL(triggered(bool)), controller, SLOT(open()));
     connect(FileM->actions()[2], SIGNAL(triggered(bool)), controller, SLOT(save()));
     connect(FileM->actions()[3], SIGNAL(triggered(bool)), controller, SLOT(Clear()));
-<<<<<<< HEAD
 
     connect(EditM->actions()[0],SIGNAL(triggered(bool)),controller,SLOT(AddToTab()));
     connect(EditM->actions()[1],SIGNAL(triggered(bool)),controller,SLOT(RemoveFromTab()));
     connect(EditM->actions()[2],SIGNAL(triggered(bool)),controller,SLOT(Apply()));
 
-=======
-
-    connect(EditM->actions()[0],SIGNAL(triggered(bool)),controller,SLOT(AddToTab()));
-    connect(EditM->actions()[1],SIGNAL(triggered(bool)),controller,SLOT(RemoveFromTab()));
-    connect(EditM->actions()[2],SIGNAL(triggered(bool)),controller,SLOT(Apply()));
-
->>>>>>> release/alpha0
     connect(ViewM->actions()[0], SIGNAL(triggered(bool)), controller, SLOT(CreateBarChart()));
     connect(ViewM->actions()[1], SIGNAL(triggered(bool)), controller, SLOT(CreateLineChart()));
     connect(ViewM->actions()[2], SIGNAL(triggered(bool)), controller, SLOT(CreateScatterChart()));
     connect(ViewM->actions()[3], SIGNAL(triggered(bool)), controller, SLOT(CreateAreaChart()));
     connect(ViewM->actions()[4], SIGNAL(triggered(bool)), controller, SLOT(CreatePieChart()));
-<<<<<<< HEAD
-}
-
-Table* MainWindow::getTable() const{
-    return table;
-}
-
-void MainWindow::Update(int i){
-    switch(i){
-    case 1:
-        SaveA->setEnabled(true);
-        CloseA->setEnabled(true);
-        BarChartA->setEnabled(false);
-        LineChartA->setEnabled(true);
-        ScatterChartA->setEnabled(true);
-        AreaChartA->setEnabled(true);
-        PieChartA->setEnabled(true);
-        break;
-    case 2:
-        SaveA->setEnabled(true);
-        CloseA->setEnabled(true);
-        BarChartA->setEnabled(true);
-        LineChartA->setEnabled(false);
-        ScatterChartA->setEnabled(true);
-        AreaChartA->setEnabled(true);
-        PieChartA->setEnabled(true);
-        break;
-    case 3:
-        SaveA->setEnabled(true);
-        CloseA->setEnabled(true);
-        BarChartA->setEnabled(true);
-        LineChartA->setEnabled(true);
-        ScatterChartA->setEnabled(false);
-        AreaChartA->setEnabled(true);
-        PieChartA->setEnabled(true);
-        break;
-    case 4:
-        SaveA->setEnabled(true);
-        CloseA->setEnabled(true);
-        BarChartA->setEnabled(true);
-        LineChartA->setEnabled(true);
-        ScatterChartA->setEnabled(true);
-        AreaChartA->setEnabled(false);
-        PieChartA->setEnabled(true);
-        break;
-    case 5:
-        SaveA->setEnabled(true);
-        CloseA->setEnabled(true);
-        BarChartA->setEnabled(true);
-        LineChartA->setEnabled(true);
-        ScatterChartA->setEnabled(true);
-        AreaChartA->setEnabled(true);
-        PieChartA->setEnabled(false);
-        break;
-    default:
-        return;
-    }
-    AddA->setEnabled(true);
-    RemoveA->setEnabled(true);
-    ConfirmA->setEnabled(false);
-}
-
-QtCharts::QChart* MainWindow::getChart() const {return chart;}
-
-void MainWindow::AddUpdate() {
-    AddA->setEnabled(false);
-    RemoveA->setEnabled(true);
-    ConfirmA->setEnabled(true);
-    NewA->setEnabled(false);
-    OpenA->setEnabled(false);
-    SaveA->setEnabled(false);
-    BarChartA->setEnabled(false);
-    LineChartA->setEnabled(false);
-    ScatterChartA->setEnabled(false);
-    AreaChartA->setEnabled(false);
-    PieChartA->setEnabled(false);
-}
-
-=======
 }
 
 Table* MainWindow::getTable() const{
@@ -304,7 +212,6 @@ void MainWindow::AddUpdate() {
     PieChartA->setEnabled(false);
 }
 
->>>>>>> release/alpha0
 void MainWindow::RemoveUpdate() {
     AddA->setEnabled(false);
     RemoveA->setEnabled(false);
