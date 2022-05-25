@@ -216,8 +216,7 @@ void Controller::CreateLineChart() const {
     v->setTitle(tit);
     v->addSeries(line->GetSerieMale());
     v->addSeries(line->GetSerieFemale());
-    v->addAxis(line->GetAxisX(), Qt::AlignBottom);
-    v->addAxis(line->GetAxisY(), Qt::AlignLeft);
+    v->createDefaultAxes();
     v->legend()->show();
     v->axisX()->setVisible(true);
     v->axisY()->setVisible(true);
