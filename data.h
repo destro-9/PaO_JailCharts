@@ -16,9 +16,12 @@ private:
     QSpinBox* male;
     QSpinBox* female;
     QComboBox* year;
+    int ValueToIndex(int) const;
 public:
     explicit Data(QObject* =nullptr);
     explicit Data(int,int,int,QObject* =nullptr);
+    explicit Data(const Data&); // ex explicit Data(Data*, ...
+    Data* ReassignParent(QObject*);
     void setController(Controller*);
     QSpinBox* getMaleWidget() const;
     QSpinBox* getFemaleWidget() const;
