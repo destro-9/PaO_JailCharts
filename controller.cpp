@@ -142,10 +142,8 @@ void Controller::UpdateViewChart() const{
     case 2:
         vChart->addSeries(line->GetSerieMale());
         vChart->addSeries(line->GetSerieFemale());
-
         vChart->createDefaultAxes();
         vChart->addAxis(line->GetAxisX(), Qt::AlignBottom);
-        //vChart->addAxis(line->GetAxisY(), Qt::AlignLeft);
         vChart->axisX()->setVisible(true);
         vChart->axisY()->setVisible(true);
         vChart->axisX()->setLineVisible();
@@ -154,15 +152,25 @@ void Controller::UpdateViewChart() const{
     case 3:
         vChart->addSeries(scatter->GetSerieMale());
         vChart->addSeries(scatter->GetSerieFemale());
+        vChart->createDefaultAxes();
+        vChart->zoomOut();
+        vChart->axisX()->setVisible(true);
+        vChart->axisY()->setVisible(true);
+        vChart->axisX()->setLineVisible();
         vChart->legend()->show();
         break;
     case 4:
         vChart->addSeries(area->GetSeries());
+        vChart->createDefaultAxes();
+        vChart->axisX()->setVisible(true);
+        vChart->axisY()->setVisible(true);
+        vChart->axisX()->setLineVisible();
         vChart->legend()->show();
         break;
     case 5:
         for(int i=0; i < view->getTable()->getVal()->GetSize(); i++)
             vChart->addSeries(pie->GetSeries(i));
+        vChart->legend()->hide();
         break;
     default:
         qDebug()<<"UVC -> FAIL on switch";
@@ -170,6 +178,7 @@ void Controller::UpdateViewChart() const{
     }
     qDebug()<<"UVC -> Out of switch";
     vChart->setTitle(mChart->getTitle());
+    qDebug()<<mChart->getTitle();
     view->Update(i);
     vChart->show();
 }
@@ -183,13 +192,16 @@ void Controller::CreateBarChart() const {
     qDebug()<<"CreateBarChart()";
     view->setChart();
     QtCharts::QChart* v = view->getChart();
+    QString tit=model->getChart()->getTitle(), desc=model->getChart()->getDescription();
     model->CreateTypeChart(1);
+    model->getChart()->setTitle(tit); model->getChart()->setDescription(desc);
     BarChart* bar = dynamic_cast<BarChart*>(model->getChart());
+    v->setTitle(tit);
     v->addSeries(bar->GetSeries());
     v->legend()->show();
     v->addAxis(bar->GetAxisX(), Qt::AlignBottom);
     v->addAxis(bar->GetAxisY(), Qt::AlignLeft);
-    v->axisX()->setVisible(false);
+    v->axisX()->setVisible(true);
     v->axisY()->setVisible(true);
     view->Update(1);
 }
@@ -197,8 +209,11 @@ void Controller::CreateBarChart() const {
 void Controller::CreateLineChart() const {
     view->setChart();
     QtCharts::QChart* v = view->getChart();
+    QString tit=model->getChart()->getTitle(), desc=model->getChart()->getDescription();
     model->CreateTypeChart(2);
+    model->getChart()->setTitle(tit); model->getChart()->setDescription(desc);
     LineChart* line = dynamic_cast<LineChart*>(model->getChart());
+    v->setTitle(tit);
     v->addSeries(line->GetSerieMale());
     v->addSeries(line->GetSerieFemale());
     v->addAxis(line->GetAxisX(), Qt::AlignBottom);
@@ -210,42 +225,50 @@ void Controller::CreateLineChart() const {
 }
 
 void Controller::CreateScatterChart() const {
+
+    view->setChart();
     QtCharts::QChart* v = view->getChart();
-    v->removeAllSeries();
-    v->axisX()->setVisible(true);
-    v->axisY()->setVisible(true);
-    //deleteAxis();
+    QString tit=model->getChart()->getTitle(), desc=model->getChart()->getDescription();
     model->CreateTypeChart(3);
+    model->getChart()->setTitle(tit); model->getChart()->setDescription(desc);
     ScatterChart* scatter = dynamic_cast<ScatterChart*>(model->getChart());
+    v->setTitle(tit);
     v->addSeries(scatter->GetSerieMale());
     v->addSeries(scatter->GetSerieFemale());
+    v->createDefaultAxes();
+    v->zoomOut();
+    v->axisX()->setVisible(true);
+    v->axisY()->setVisible(true);
+    v->axisX()->setLineVisible(true);
     v->legend()->show();
     view->Update(3);
-    //v->show(); //Ho ragione di credere non serva
 }
 
 void Controller::CreateAreaChart() const {
+    view->setChart();
     QtCharts::QChart* v = view->getChart();
-    v->removeAllSeries();
+    QString tit=model->getChart()->getTitle(), desc=model->getChart()->getDescription();
+    model->CreateTypeChart(4);
+    model->getChart()->setTitle(tit); model->getChart()->setDescription(desc);
+    AreaChart* area = dynamic_cast<AreaChart*>(model->getChart());
+    v->setTitle(tit);
+    v->addSeries(area->GetSeries());
+    v->createDefaultAxes();
     v->axisX()->setVisible(true);
     v->axisY()->setVisible(true);
-    //deleteAxis();
-    model->CreateTypeChart(4);
-    AreaChart* area = dynamic_cast<AreaChart*>(model->getChart());
-    v->addSeries(area->GetSeries());
-    view->Update(4);
+    v->axisX()->setLineVisible(true);
     v->legend()->show();
-    //v->show(); // Prima non c'era... Serve?
+    view->Update(4);
 }
 
 void Controller::CreatePieChart() const {
+    view->setChart();
     QtCharts::QChart* v = view->getChart();
-    v->removeAllSeries();
-    v->axisX()->setVisible(false);
-    v->axisY()->setVisible(false);
-    //deleteAxis();
+    QString tit=model->getChart()->getTitle(), desc=model->getChart()->getDescription();
     model->CreateTypeChart(5);
+    model->getChart()->setTitle(tit); model->getChart()->setDescription(desc);
     PieChart* pie = dynamic_cast<PieChart*>(model->getChart());
+    v->setTitle(tit);
     for(int i=0; i < view->getTable()->getVal()->GetSize(); i++)
         v->addSeries(pie->GetSeries(i));
     view->Update(5);
@@ -272,9 +295,7 @@ void Controller::InsertToVal() {
 void Controller::ChangedValue() {
     if(!view->ApplyIsEnabled()){
         if(view->getTable()->getVal()->YearCheck())
-        {
             UpdateViewChart();
-        }
         else
             QMessageBox::warning(0,"Error","Same year values are not allowed");
     }
@@ -306,7 +327,6 @@ void Controller::readXML(){
     Values* val = table->getVal();
     if(!val->IsEmpty())
         table->DeleteAll();
-        //val->DeleteAll();
     QDomElement root = doc.firstChildElement(); //Ottengo la root
     QDomElement points = root.firstChildElement(); //Ottengo il tag Points
     QDomNodeList pointsList = points.elementsByTagName("Point"); //Lista dei dati

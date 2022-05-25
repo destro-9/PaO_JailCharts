@@ -17,6 +17,7 @@ public:
     virtual int getTypeChart() const =0;
     Values* GetSortedDeepCopyOfVal(Values*) const;
     //Serve un distruttore virtuale :(
+    virtual ~Chart() =0;
 
 };
 #endif // CHART_H

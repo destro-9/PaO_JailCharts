@@ -21,3 +21,5 @@ Values* Chart::GetSortedDeepCopyOfVal(Values* original) const{
     }
     return v;
 }
+
+Chart::~Chart() = default;

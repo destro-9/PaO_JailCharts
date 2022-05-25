@@ -38,7 +38,7 @@ Data::Data(int m, int f, int y,QObject *parent) : QObject(parent), male(new QSpi
         setController(t->getTableController());
 }
 
-Data::Data(const Data& d) : male(new QSpinBox()), female(new QSpinBox()), year(new QComboBox())
+Data::Data(const Data& d) : QObject(), male(new QSpinBox()), female(new QSpinBox()), year(new QComboBox())
 {
     for(int i=2010; i<=2020; i++)
         year->insertItem(i, QString::number(i));
