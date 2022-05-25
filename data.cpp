@@ -23,19 +23,10 @@ Data::Data(int m, int f, int y,QObject *parent) : QObject(parent), male(new QSpi
     for(int i=2010; i<=2020; i++)
         year->insertItem(i, QString::number(i));
 
-<<<<<<< HEAD
-    // DA CANCELLARE A FINE DEBUG !!!
-    if(y>12)
-        qDebug()<<"y richiede valori fra 0 e 11";
-    // RICORDATIII
-
-    year->setCurrentIndex(y);
-=======
     if(y>=2010 && y<=2020) //Per comodita` accetta sia valori fra 2010 e 2020, oppure direttamente l'indice dell'anno
         year->setCurrentIndex(ValueToIndex(y));
     else
         year->setCurrentIndex(y);
->>>>>>> release/alpha0
     male->setRange(0,200000);
     male->setValue(m);
     male->setAccelerated(true);
@@ -47,8 +38,6 @@ Data::Data(int m, int f, int y,QObject *parent) : QObject(parent), male(new QSpi
         setController(t->getTableController());
 }
 
-<<<<<<< HEAD
-=======
 Data::Data(const Data& d) : QObject(), male(new QSpinBox()), female(new QSpinBox()), year(new QComboBox())
 {
     for(int i=2010; i<=2020; i++)
@@ -110,7 +99,6 @@ int Data::ValueToIndex(int y) const{
     }
 }
 
->>>>>>> release/alpha0
 void Data::setController(Controller* c){
     //Se la funzione viene invocata allora parent e` di tipo Table
     controller = c;
