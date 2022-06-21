@@ -16,7 +16,9 @@ public:
     void setVal(Values*);
     int ValueToIndex(int) const;
     Chart* getChart();
+    void InitChart(QString,QString);
     void CreateTypeChart(int);
+    static void ChartDeallocator(Chart*);
     ~Model();
 };
 

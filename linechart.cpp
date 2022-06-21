@@ -36,6 +36,8 @@ int LineChart::getTypeChart() const {
 }
 
 LineChart::~LineChart(){
+    /*
     delete serieMale;
     delete serieFemale;
+    */
 }

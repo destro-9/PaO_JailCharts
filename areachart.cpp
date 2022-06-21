@@ -24,7 +24,9 @@ int AreaChart::getTypeChart() const{
 
 //Non so se sia sicuro
 AreaChart::~AreaChart(){
+    /*
     delete series;
     delete serieMale;
     delete serieFemale;
+    */
 }

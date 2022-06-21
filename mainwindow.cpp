@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("JailCharts");
     NewA = new QAction(QIcon(":/icon/images/add-file.png"),tr("New"),this);
     NewA->setShortcut(QKeySequence::New);
-    OpenA = new QAction(QIcon(":/icon/images/open.png"),tr("Open"),this);
+    OpenA = new QAction(QIcon(":/icon/images/open-folder.png"),tr("Open"),this);
     OpenA->setShortcuts(QKeySequence::Open);
     SaveA=new QAction(QIcon(":/icon/images/save.png") ,tr("Save"),this);
     SaveA->setShortcuts(QKeySequence::Save);
@@ -85,10 +85,16 @@ MainWindow::MainWindow(QWidget *parent)
     PieChartA->setEnabled(false);
 
     QHBoxLayout* container = new QHBoxLayout();
+    QVBoxLayout* tabdesc = new QVBoxLayout();
     table = new Table(this);
+    desc = new QLabel("Description");
+    desc->setFixedHeight(50);
+    tabdesc->addWidget(table);
+    tabdesc->addWidget(desc);
     container->setSpacing(10);
     table->setFixedWidth(360);
-    container->addWidget(table);
+    container->addLayout(tabdesc);
+
 
     QtCharts::QChart* chart = new QtCharts::QChart();
     chartView = new QtCharts::QChartView(chart);
@@ -131,6 +137,10 @@ void MainWindow::SetController(Controller* c){
 
 Table* MainWindow::getTable() const{
     return table;
+}
+
+QLabel* MainWindow::getDesc() const{
+    return desc;
 }
 
 void MainWindow::Update(int i){

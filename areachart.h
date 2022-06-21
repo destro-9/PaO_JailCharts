@@ -14,7 +14,7 @@ public:
     AreaChart(Values*); //Necessario passare anche title e description?
     QtCharts::QAreaSeries* GetSeries() const;
     virtual int getTypeChart() const override;
-    ~AreaChart();
+    virtual ~AreaChart() override;
 };
 
 #endif // AREACHART_H

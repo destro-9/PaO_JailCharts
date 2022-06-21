@@ -1,11 +1,11 @@
 #include "chart.h"
-
+#include <QDebug>
 QString Chart::getTitle() const {return title;}
 QString Chart::getDescription() const {return description;}
 void Chart::setTitle(QString s) {title=s;}
 void Chart::setDescription(QString s) {description=s;}
 
-Values* Chart::GetSortedDeepCopyOfVal(Values* original) const{
+Values* Chart::GetSortedDeepCopyOfVal(Values* original) {
     Values aux;
     for(int i=0; i < original->GetSize(); i++){ //Fa una copia profonda
         Data* auxd = new Data(*((*original)[i]));
@@ -23,3 +23,4 @@ Values* Chart::GetSortedDeepCopyOfVal(Values* original) const{
 }
 
 Chart::~Chart() = default;
+

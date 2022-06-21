@@ -15,7 +15,7 @@ public:
     void setTitle(QString ="Unknown");
     void setDescription(QString ="");
     virtual int getTypeChart() const =0;
-    Values* GetSortedDeepCopyOfVal(Values*) const;
+    static Values* GetSortedDeepCopyOfVal(Values*);
     //Serve un distruttore virtuale :(
     virtual ~Chart() =0;
 

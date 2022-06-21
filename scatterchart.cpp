@@ -27,7 +27,7 @@ int ScatterChart::getTypeChart() const{
     return 3;
 }
 
-ScatterChart::~ScatterChart(){
+ScatterChart::~ScatterChart(){/*
     delete serieMale;
-    delete serieFemale;
+    delete serieFemale;*/
 }

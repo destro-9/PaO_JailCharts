@@ -116,5 +116,5 @@ int PieChart::getTypeChart() const {
 }
 
 PieChart::~PieChart(){
-    delete slice;
+    //delete slice;
 }
