@@ -119,7 +119,9 @@ void Controller::UpdateViewChart() const{
     QtCharts::QChart* vChart = view->getChart();
     if(view->getTable()->IsEmpty())
         return;
-
+    Chart* oldChart;
+    if(model->getChart())
+        oldChart = model->getChart();
     UpdateModelChart(); //Aggiorno i valori di model a partire dai valori presenti in tabella (val)
 
     Chart* mChart = model->getChart();
@@ -178,9 +180,12 @@ void Controller::UpdateViewChart() const{
     }
     qDebug()<<"UVC -> Out of switch";
     vChart->setTitle(mChart->getTitle());
+    view->getDesc()->setText(mChart->getDescription());
     qDebug()<<mChart->getTitle();
     view->Update(i);
     vChart->show();
+    if(oldChart)
+        delete oldChart;
 }
 
 void Controller::CloseInputForm() const{
@@ -197,6 +202,7 @@ void Controller::CreateBarChart() const {
     model->getChart()->setTitle(tit); model->getChart()->setDescription(desc);
     BarChart* bar = dynamic_cast<BarChart*>(model->getChart());
     v->setTitle(tit);
+    view->getDesc()->setText(desc);
     v->addSeries(bar->GetSeries());
     v->legend()->show();
     v->addAxis(bar->GetAxisX(), Qt::AlignBottom);
@@ -216,8 +222,7 @@ void Controller::CreateLineChart() const {
     v->setTitle(tit);
     v->addSeries(line->GetSerieMale());
     v->addSeries(line->GetSerieFemale());
-    v->addAxis(line->GetAxisX(), Qt::AlignBottom);
-    v->addAxis(line->GetAxisY(), Qt::AlignLeft);
+    v->createDefaultAxes();
     v->legend()->show();
     v->axisX()->setVisible(true);
     v->axisY()->setVisible(true);
@@ -305,7 +310,7 @@ void Controller::open() {
     Table* t = view->getTable();
     if(!t->getTableController())
         t->setController(this);
-    path = QFileDialog::getOpenFileName(view,tr("Choose an xml file"),QDir::currentPath(),"*.xml");
+    path = QFileDialog::getOpenFileName(view,tr("Choose a .jail file"),QDir::currentPath(),"*.jail");
     if(!path.isNull())
         Clear();
     readXML();
@@ -343,11 +348,14 @@ void Controller::readXML(){
         }
     }
     QString title = root.childNodes().at(1).toElement().attribute("title");
+    QString desc = root.childNodes().at(2).toElement().attribute("description");
     //model->getChart()->setTitle(title);
     table->Update();//Popolo la table di widget
     //view->getChart()->setTitle(title);
+    model->InitChart(title,desc);
     CreateBarChart(); //Aggiorno il chart coi valori presenti in tabella
     model->getChart()->setTitle(title);
+    model->getChart()->setDescription(desc);
     view->getChart()->setTitle(title);
 
 
@@ -355,7 +363,7 @@ void Controller::readXML(){
 
 void Controller::save(){
     if(!view->getTable()->getVal()->IsEmpty()){
-        path = QFileDialog::getSaveFileName(view,tr("Save as"),QDir::currentPath(),"*.xml");
+        path = QFileDialog::getSaveFileName(view,tr("Save as"),QDir::currentPath(),"*.jail");
         writeXML();
     } else
         QMessageBox::warning(0,"File is empty","Fill my vector please xD");
@@ -365,7 +373,7 @@ void Controller::writeXML(){
     QDomDocument doc;
     QFile file(path); //Qui andra` inserito il percorso del file
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text)){
-        QMessageBox::warning(0,"Failed to create/open file","Sorry for the incovenience, try to create a xml file by yourself");
+        QMessageBox::warning(0,"Failed to create/open file","Sorry for the incovenience, try to create a .jail file by yourself");
         return;
     }
     file.resize(0);
@@ -373,10 +381,13 @@ void Controller::writeXML(){
     QDomElement root = doc.createElement("Chart");
     QDomElement Points = doc.createElement("Points");
     QDomElement Title = doc.createElement("Title");
+    QDomElement Description = doc.createElement("Description");
     doc.appendChild(root);
     root.appendChild(Points);
     Title.setAttribute("title",model->getChart()->getTitle());
+    Description.setAttribute("description",model->getChart()->getDescription());
     root.appendChild(Title);
+    root.appendChild(Description);
     for(int i=0; i < val->GetSize(); i++){
         QDomElement p = doc.createElement("Point");
         p.setAttribute("male",(*val)[i]->getMale());

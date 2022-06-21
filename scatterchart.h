@@ -13,7 +13,7 @@ public:
     QtCharts::QScatterSeries* GetSerieMale() const;
     QtCharts::QScatterSeries* GetSerieFemale() const;
     virtual int getTypeChart() const override;
-    ~ScatterChart();
+    virtual ~ScatterChart() override;
 };
 
 #endif // SCATTERCHART_H

@@ -16,6 +16,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QWidget>
+#include <QLabel>
 
 #include "table.h"
 
@@ -25,6 +26,7 @@ class MainWindow : public QMainWindow
 private:
     Controller* controller;
     Table* table;
+    QLabel* desc;
     QAction* NewA;
     QAction* OpenA;
     QAction* SaveA;
@@ -50,6 +52,7 @@ public:
     void SetController(Controller*);
     void Update(int);
     Table* getTable() const;
+    QLabel* getDesc() const;
     QtCharts::QChart* getChart() const;
     void setChart();
     bool ApplyIsEnabled() const;

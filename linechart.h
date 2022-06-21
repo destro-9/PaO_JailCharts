@@ -21,7 +21,7 @@ public:
     QtCharts::QCategoryAxis* GetAxisX() const;
     QtCharts::QValueAxis* GetAxisY() const;
     virtual int getTypeChart() const override;
-    ~LineChart();
+    virtual ~LineChart() override;
 };
 
 #endif // LINECHART_H

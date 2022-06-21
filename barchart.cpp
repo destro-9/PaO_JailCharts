@@ -21,6 +21,8 @@ BarChart::BarChart(Values* val) : series(new QtCharts::QBarSeries()),
     axisY->setTickCount(val->GetValMax()/10);
 }
 
+BarChart::BarChart(QString t, QString d){setTitle(t);setDescription(d);}
+
 int BarChart::getTypeChart() const {return 1;}
 QtCharts::QBarCategoryAxis* BarChart::GetAxisX() {return axisX;}
 QtCharts::QValueAxis* BarChart::GetAxisY() {return axisY;}
@@ -29,8 +31,10 @@ QStringList BarChart::GetCategories() const {return categories;}
 
 //Non ne sono sicuro
 BarChart::~BarChart(){
+/*
     delete series;
     delete setMale;
     delete setFemale;
     delete axisX;
+*/
 }

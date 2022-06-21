@@ -50,6 +50,8 @@ int Model::ValueToIndex(int i) const {
 
 Chart* Model::getChart() {return chart;}
 
+void Model::InitChart(QString t, QString d) {chart = new BarChart(t,d);}
+
 void Model::CreateTypeChart(int i){
     //Implementare deallocazione? Tanto arrivati a sto punto il vChart e` gia` deallocato
     //Servono distruttori virtuali
@@ -73,6 +75,35 @@ void Model::CreateTypeChart(int i){
         return;
     }
     qDebug()<<"CTC -> Switch eseguito";
+}
+
+void Model::ChartDeallocator(Chart* c){
+    BarChart* bar;LineChart* line;ScatterChart* scatter;AreaChart* area;PieChart* pie;
+    if(c == nullptr)
+        return;
+    bar = dynamic_cast<BarChart*>(c);
+    line = dynamic_cast<LineChart*>(c);
+    scatter = dynamic_cast<ScatterChart*>(c);
+    area = dynamic_cast<AreaChart*>(c);
+    pie = dynamic_cast<PieChart*>(c);
+    if(bar){
+        bar->~BarChart();
+        return;
+    }
+    if(line){
+        line->~LineChart();
+        return;
+    }
+    if(scatter){
+        scatter->~ScatterChart();
+        return;
+    }
+    if(area){
+        area->~AreaChart();
+        return;
+    }
+    if(pie)
+        pie->~PieChart();
 }
 
 Model::~Model(){}

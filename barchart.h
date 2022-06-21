@@ -22,13 +22,14 @@ private:
 
 public:
     BarChart(Values*);
+    BarChart(QString,QString);
     QtCharts::QBarCategoryAxis* GetAxisX();
     QtCharts::QValueAxis* GetAxisY();
 
     QtCharts::QBarSeries* GetSeries() const;
     QStringList GetCategories() const;
     virtual int getTypeChart() const override;
-    ~BarChart();
+    virtual ~BarChart() override;
 };
 
 #endif // BARCHART_H

@@ -15,7 +15,7 @@ public:
     PieChart(Values*);
     QtCharts::QPieSeries* GetSeries(int) const;
     virtual int getTypeChart() const override;
-    ~PieChart();
+    virtual ~PieChart() override;
 };
 
 #endif // PIECHART_H
