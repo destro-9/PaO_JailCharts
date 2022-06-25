@@ -50,7 +50,8 @@ SOURCES += \
     piechart.cpp \
     controller.cpp \
     newwindow.cpp \
-    inputform.cpp
+    inputform.cpp \
+    rename.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -66,7 +67,8 @@ HEADERS += \
     piechart.h \
     controller.h \
     newwindow.h \
-    inputform.h
+    inputform.h \
+    rename.h
 
 RESOURCES += \
     icon.qrc

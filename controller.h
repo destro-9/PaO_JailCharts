@@ -2,11 +2,11 @@
 #define CONTROLLER_H
 
 #include <QObject>
-#include <QtXml>
 #include "mainwindow.h"
 #include "newwindow.h"
 #include "inputform.h"
 #include "model.h"
+#include "rename.h"
 
 class Controller : public QObject{
     Q_OBJECT
@@ -15,6 +15,7 @@ private:
     MainWindow* view;
     NewWindow* neww;
     InputForm* inputw;
+    Rename* rename;
     QString path;
     void deleteAxis() const;
     void readXML();
@@ -27,9 +28,10 @@ public:
     void SetModel(Model*);
     void SetView(MainWindow*);
 public slots:
-    void InputSequence();
+    void InputSequence(); //Sequenza di funzioni/slot da chiamare per l'inizializzazione
     void CallNewWindow();
     void CallInputForm();
+    void CallRenameWindow();
     void UpdateModelChart() const; //Private?
     void UpdateViewChart() const;
     void open();
@@ -44,6 +46,7 @@ public slots:
     void CreateAreaChart() const;
     void CreatePieChart() const;
     void ChangedValue();
+    void RenameSlot() const;
 };
 
 #endif // CONTROLLER_H

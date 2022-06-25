@@ -1,5 +1,6 @@
 #include "controller.h"
 #include <QDir>
+#include <QtXml>
 #include <QFileDialog>
 #include <QMessageBox> // Forse inutile includerlo
 #include <QtCharts/QBarCategoryAxis>
@@ -19,6 +20,14 @@ void Controller::InputSequence(){
     InputMode_=false;
 }
 
+void Controller::RenameSlot() const{
+    model->getChart()->setTitle(rename->getTitle());
+    model->getChart()->setDescription(rename->getDescription());
+    view->getChart()->setTitle(rename->getTitle());
+    view->getDesc()->setText(rename->getDescription());
+    rename->close();
+}
+
 void Controller::CallNewWindow(){
     neww = new NewWindow(view);
     neww->SetController(this);
@@ -29,6 +38,13 @@ void Controller::CallInputForm(){
     inputw = new InputForm(neww->RowsValue(),neww);
     inputw->SetController(this);
     inputw->show();
+}
+
+void Controller::CallRenameWindow(){
+    rename = new Rename(model->getChart()->getTitle(),
+                        model->getChart()->getDescription());
+    rename->SetController(this);
+    rename->show();
 }
 
 void Controller::AddToTab() const {
@@ -57,7 +73,6 @@ void Controller::deleteAxis() const {
 void Controller::Apply() {
     Table* t = view->getTable();
     if(!t->getVal()->YearCheck()){
-        qDebug()<<"Apply()-> YearCheck triggered";
         QMessageBox::warning(0,"Error","Same year values are not allowed");
         t->DeleteRow(t->rowCount()-1);
         t->EnableRows();
@@ -278,7 +293,6 @@ void Controller::CreatePieChart() const {
         v->addSeries(pie->GetSeries(i));
     view->Update(5);
     v->legend()->hide();
-    //v->show(); // Anche questo mancava... Mmm...
 }
 
 void Controller::InsertToVal() {

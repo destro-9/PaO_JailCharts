@@ -12,5 +12,6 @@
         <file>images/remove.png</file>
         <file>images/save.png</file>
         <file>images/scatter-graph.png</file>
+        <file>images/rename.png</file>
     </qresource>
 </RCC>

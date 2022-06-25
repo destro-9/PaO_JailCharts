@@ -53,7 +53,6 @@ NewWindow::NewWindow(QWidget* parent) : QDialog(parent){
 
     setLayout(mainLayout);
     connect(cancel, SIGNAL(clicked()), this, SLOT(close()));
-    qDebug()<<"Fine";
 }
 
 void NewWindow::SetController(Controller* c){
