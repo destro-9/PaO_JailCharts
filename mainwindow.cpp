@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     QuitA=new QAction(tr("Quit"), this);
     QuitA->setShortcuts(QKeySequence::Quit);
 
-    BarChartA=new QAction(QIcon(":/icon/images/bar-chart.png"),tr("Barchart"),this);
+    BarChartA=new QAction(QIcon(":/icon/images/bar-chart.png"),tr("BarChart"),this);
     LineChartA=new QAction(QIcon(":/icon/images/line-chart.png"),tr("LineChart"),this);
     ScatterChartA=new QAction(QIcon(":/icon/images/scatter-graph.png"),tr("ScatterChart"),this);
     AreaChartA=new QAction(QIcon(":/icon/images/area-chart.png"),tr("AreaChart"),this);
@@ -76,7 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
     ChartT->addAction(PieChartA);
 
     SaveA->setEnabled(false);
-    CloseA->setEnabled(false); // Should be true???
+    CloseA->setEnabled(false);
     AddA->setEnabled(false);
     RemoveA->setEnabled(false);
     ConfirmA->setEnabled(false);

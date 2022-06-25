@@ -60,16 +60,6 @@ void Controller::AddToTab() const {
     }
 }
 
-void Controller::deleteAxis() const {
-    BarChart* bar = dynamic_cast<BarChart*>(model->getChart());
-    if(bar && bar->GetAxisX() != nullptr){
-        QtCharts::QBarCategoryAxis* ax = new QtCharts::QBarCategoryAxis();
-        view->getChart()->setAxisX(ax);
-        //oppure
-        //view->getMainw()->getChart()->removeAxis(bar->GetAxisX());
-    }
-}
-
 void Controller::Apply() {
     Table* t = view->getTable();
     if(!t->getVal()->YearCheck()){
@@ -356,16 +346,14 @@ void Controller::readXML(){
             Data* d = new Data(
                 dato.attribute("male").toInt(),
                 dato.attribute("female").toInt(),
-                model->ValueToIndex(dato.attribute("year").toInt()), table
+                dato.attribute("year").toInt(), table
             );
             val->Add(d);
         }
     }
     QString title = root.childNodes().at(1).toElement().attribute("title");
     QString desc = root.childNodes().at(2).toElement().attribute("description");
-    //model->getChart()->setTitle(title);
     table->Update();//Popolo la table di widget
-    //view->getChart()->setTitle(title);
     model->InitChart(title,desc);
     CreateBarChart(); //Aggiorno il chart coi valori presenti in tabella
     model->getChart()->setTitle(title);

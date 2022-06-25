@@ -17,7 +17,6 @@ private:
     InputForm* inputw;
     Rename* rename;
     QString path;
-    void deleteAxis() const;
     void readXML();
     void writeXML();
     bool InputMode_;
