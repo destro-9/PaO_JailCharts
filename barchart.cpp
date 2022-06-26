@@ -1,5 +1,5 @@
 #include "barchart.h"
-#include <QDebug>
+
 BarChart::BarChart(Values* val) : series(new QtCharts::QBarSeries()),
                                 setMale(new QtCharts::QBarSet("Male")),
                                 setFemale(new QtCharts::QBarSet("Female")),

@@ -48,7 +48,6 @@ void Controller::CallRenameWindow(){
 }
 
 void Controller::AddToTab() const {
-    //Warning: se da errore lo comunica a chi lo invoca?
     Table* t = view->getTable();
     int r = t->rowCount();
     if(r<=10){
@@ -138,7 +137,6 @@ void Controller::UpdateViewChart() const{
     PieChart* pie =dynamic_cast<PieChart*>(mChart);
     switch(i){
     case 1:
-        qDebug()<<"UVC -> barchart";
         vChart->addSeries(bar->GetSeries());
         vChart->addAxis(bar->GetAxisX(), Qt::AlignBottom);
         vChart->addAxis(bar->GetAxisY(), Qt::AlignLeft);
@@ -180,13 +178,10 @@ void Controller::UpdateViewChart() const{
         vChart->legend()->hide();
         break;
     default:
-        qDebug()<<"UVC -> FAIL on switch";
         return;
     }
-    qDebug()<<"UVC -> Out of switch";
     vChart->setTitle(mChart->getTitle());
     view->getDesc()->setText(mChart->getDescription());
-    qDebug()<<mChart->getTitle();
     view->Update(i);
     vChart->show();
     if(oldChart)
@@ -199,7 +194,6 @@ void Controller::CloseInputForm() const{
 }
 
 void Controller::CreateBarChart() const {
-    qDebug()<<"CreateBarChart()";
     view->setChart();
     QtCharts::QChart* v = view->getChart();
     QString tit=model->getChart()->getTitle(), desc=model->getChart()->getDescription();
@@ -368,7 +362,7 @@ void Controller::save(){
         path = QFileDialog::getSaveFileName(view,tr("Save as"),QDir::currentPath(),"*.jail");
         writeXML();
     } else
-        QMessageBox::warning(0,"File is empty","Fill my vector please xD");
+        QMessageBox::warning(0,"File is empty","Provide some input");
 }
 
 void Controller::writeXML(){

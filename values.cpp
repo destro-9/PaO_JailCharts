@@ -1,5 +1,4 @@
 #include "values.h"
-#include <QDebug>
 Values::Values() {}
 
 void Values::Add(Data* d){

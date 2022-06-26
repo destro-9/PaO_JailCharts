@@ -1,5 +1,5 @@
 #include "chart.h"
-#include <QDebug>
+
 QString Chart::getTitle() const {return title;}
 QString Chart::getDescription() const {return description;}
 void Chart::setTitle(QString s) {title=s;}

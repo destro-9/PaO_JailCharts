@@ -1,7 +1,5 @@
 #include "model.h"
 
-#include <QDebug>
-
 Model::Model() {}
 
 void Model::setVal(Values* v){
