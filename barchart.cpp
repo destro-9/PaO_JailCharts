@@ -29,7 +29,6 @@ QtCharts::QValueAxis* BarChart::GetAxisY() {return axisY;}
 QtCharts::QBarSeries* BarChart::GetSeries() const {return series;}
 QStringList BarChart::GetCategories() const {return categories;}
 
-//Non ne sono sicuro
 BarChart::~BarChart(){
 /*
     delete series;

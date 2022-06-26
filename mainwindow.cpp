@@ -4,7 +4,6 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    qDebug()<<"start mainw";
     setGeometry(180,100,1300,800);
     setWindowTitle("JailCharts");
     NewA = new QAction(QIcon(":/icon/images/add-file.png"),tr("New"),this);
@@ -18,8 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     QuitA=new QAction(tr("Quit"), this);
     QuitA->setShortcuts(QKeySequence::Quit);
 
-    BarChartA=new QAction(QIcon(":/icon/images/bar-chart.png"),tr("Barchart"),this);
-    LineChartA=new QAction(QIcon(":/icon/images/line-chart.png"),tr("Linechart"),this);
+    BarChartA=new QAction(QIcon(":/icon/images/bar-chart.png"),tr("BarChart"),this);
+    LineChartA=new QAction(QIcon(":/icon/images/line-chart.png"),tr("LineChart"),this);
     ScatterChartA=new QAction(QIcon(":/icon/images/scatter-graph.png"),tr("ScatterChart"),this);
     AreaChartA=new QAction(QIcon(":/icon/images/area-chart.png"),tr("AreaChart"),this);
     PieChartA=new QAction(QIcon(":/icon/images/pie-graph.png"),tr("PieChart"),this);
@@ -28,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     AddA=new QAction(QIcon(":/icon/images/plus.png"),tr("Add"),this);
     RemoveA=new QAction(QIcon(":/icon/images/remove.png"),tr("Remove"),this);
     ConfirmA=new QAction(QIcon(":/icon/images/confirm.png"),tr("Confirm"),this);
+    RenameA=new QAction(QIcon(":/icon/images/rename.png"),tr("Rename"),this);
 
 
     FileM =new QMenu(tr("File"),this);
@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     EditM->addAction(AddA);
     EditM->addAction(RemoveA);
     EditM->addAction(ConfirmA);
+    EditM->addAction(RenameA);
 
     ViewM =new QMenu(tr("View"),this);
     ViewM->addAction(BarChartA);
@@ -65,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
     ModificaT->addAction(AddA);
     ModificaT->addAction(ConfirmA);
     ModificaT->addAction(RemoveA);
+    ModificaT->addAction(RenameA);
 
     ChartT=addToolBar(tr("View"));
     ChartT->addAction(BarChartA);
@@ -74,10 +76,11 @@ MainWindow::MainWindow(QWidget *parent)
     ChartT->addAction(PieChartA);
 
     SaveA->setEnabled(false);
-    CloseA->setEnabled(false); // Should be true???
+    CloseA->setEnabled(false);
     AddA->setEnabled(false);
     RemoveA->setEnabled(false);
     ConfirmA->setEnabled(false);
+    RenameA->setEnabled(false);
     BarChartA->setEnabled(false);
     LineChartA->setEnabled(false);
     ScatterChartA->setEnabled(false);
@@ -85,19 +88,22 @@ MainWindow::MainWindow(QWidget *parent)
     PieChartA->setEnabled(false);
 
     QHBoxLayout* container = new QHBoxLayout();
-    QVBoxLayout* tabdesc = new QVBoxLayout();
+    QVBoxLayout* vertical = new QVBoxLayout();
+
     table = new Table(this);
     desc = new QLabel("Description");
-    desc->setFixedHeight(50);
-    tabdesc->addWidget(table);
-    tabdesc->addWidget(desc);
-    container->setSpacing(10);
-    table->setFixedWidth(360);
-    container->addLayout(tabdesc);
-
-
     QtCharts::QChart* chart = new QtCharts::QChart();
     chartView = new QtCharts::QChartView(chart);
+
+    desc->setFixedHeight(50);
+
+    container->addWidget(table);
+    container->addWidget(chartView);
+    container->setSpacing(10);
+    table->setFixedWidth(360);
+    vertical->addLayout(container);
+    vertical->addWidget(desc);
+
 
     QtCharts::QLineSeries* series = new QtCharts::QLineSeries();
     series->append(0,1);
@@ -106,15 +112,13 @@ MainWindow::MainWindow(QWidget *parent)
     chart->createDefaultAxes();
     chart->legend()->hide();
     chartView->setRenderHint(QPainter::Antialiasing);
-    container->addWidget(chartView);
     QWidget* main = new QWidget();
-    main->setLayout(container);
+    main->setLayout(vertical);
     setCentralWidget(main);
 
     connect(FileM->actions()[4],SIGNAL(triggered(bool)),this,SLOT(close()));
     connect(EditM->actions()[0],SIGNAL(triggered(bool)),this,SLOT(AddUpdate()));
     connect(EditM->actions()[1],SIGNAL(triggered(bool)),this,SLOT(RemoveUpdate()));
-    qDebug()<<"mainw constructor";
 }
 
 void MainWindow::SetController(Controller* c){
@@ -127,6 +131,7 @@ void MainWindow::SetController(Controller* c){
     connect(EditM->actions()[0],SIGNAL(triggered(bool)),controller,SLOT(AddToTab()));
     connect(EditM->actions()[1],SIGNAL(triggered(bool)),controller,SLOT(RemoveFromTab()));
     connect(EditM->actions()[2],SIGNAL(triggered(bool)),controller,SLOT(Apply()));
+    connect(EditM->actions()[3],SIGNAL(triggered(bool)),controller,SLOT(CallRenameWindow()));
 
     connect(ViewM->actions()[0], SIGNAL(triggered(bool)), controller, SLOT(CreateBarChart()));
     connect(ViewM->actions()[1], SIGNAL(triggered(bool)), controller, SLOT(CreateLineChart()));
@@ -195,6 +200,7 @@ void MainWindow::Update(int i){
     }
     AddA->setEnabled(true);
     RemoveA->setEnabled(true);
+    RenameA->setEnabled(true);
     ConfirmA->setEnabled(false);
 }
 
@@ -212,6 +218,7 @@ void MainWindow::AddUpdate() {
     AddA->setEnabled(false);
     RemoveA->setEnabled(true);
     ConfirmA->setEnabled(true);
+    RenameA->setEnabled(false);
     NewA->setEnabled(false);
     OpenA->setEnabled(false);
     SaveA->setEnabled(false);
@@ -230,6 +237,7 @@ void MainWindow::RemoveUpdate() {
 void MainWindow::ApplyUpdate() {
     AddA->setEnabled(true);
     RemoveA->setEnabled(true);
+    RenameA->setEnabled(true);
     ConfirmA->setEnabled(false);
     NewA->setEnabled(true);
     OpenA->setEnabled(true);
@@ -239,6 +247,7 @@ void MainWindow::ApplyUpdate() {
 void MainWindow::ClearUpdate() {
     AddA->setEnabled(false);
     RemoveA->setEnabled(false);
+    RenameA->setEnabled(false);
     ConfirmA->setEnabled(false);
     SaveA->setEnabled(false);
     CloseA->setEnabled(false);

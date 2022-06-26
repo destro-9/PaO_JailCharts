@@ -16,7 +16,3 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// Problemi:
-// - Quando vengono create le istanze di Data in InputForm, il genitore di Data
-//      e` InputForm, ma dovrebbe essere Table, questo in futuro puo` dar
-//      problemi con il passaggio del controller ???

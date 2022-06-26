@@ -19,12 +19,12 @@ private:
     QPushButton* cancel;
 public:
     explicit InputForm(int =2, QDialog* =nullptr);
-    void SetController(Controller*);
+    void SetController(Controller*); //Setta Controller* controller e gestisce le connect
     bool BlanksCheck() const;
     bool YearCheck() const;
-    int getInputRowsNum() const;
-    Data* getData(int) const;
-    ~InputForm();
+    int getInputRowsNum() const; //Restituisce il numero di elementi Data
+    Data* getData(int) const; //Restituisce l' i-esimo Data presente in list
+    ~InputForm(); //Dealloca ogni elemento Data presente in list
 };
 
 #endif // INPUTFORM_H

@@ -16,7 +16,6 @@ public:
     void setDescription(QString ="");
     virtual int getTypeChart() const =0;
     static Values* GetSortedDeepCopyOfVal(Values*);
-    //Serve un distruttore virtuale :(
     virtual ~Chart() =0;
 
 };

@@ -40,6 +40,7 @@ private:
     QAction* AddA;
     QAction* RemoveA;
     QAction* ConfirmA;
+    QAction* RenameA;
     QMenu* FileM;
     QMenu* EditM;
     QMenu* ViewM;
