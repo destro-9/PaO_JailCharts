@@ -5,7 +5,6 @@ BarChart::BarChart(Values* val) : series(new QtCharts::QBarSeries()),
                                 setFemale(new QtCharts::QBarSet("Female")),
                                 axisX(new QtCharts::QBarCategoryAxis()),
                                 axisY(new QtCharts::QValueAxis()){
-    qDebug()<<"Barchart constructor";
     Values* sorted = GetSortedDeepCopyOfVal(val);
     for(int i=0; i < sorted->GetSize(); i++){
         *setMale << (*sorted)[i]->getMale();
